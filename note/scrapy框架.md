@@ -159,8 +159,55 @@ execute(['scrapy', 'crawl', 'qidian'])
 $ python main.py
 ```
 
-
-
 结果如下: 
 
 ![](../note/img/qidian_result.png)
+
+
+
+### 6. 设置代理
+
+middlewares.py 
+
+```python
+import random
+
+import requests
+from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
+
+from weibospider import settings
+
+
+class RandomUserAgent(UserAgentMiddleware):
+    """
+    设置user-Agent方法
+    """
+
+    def process_request(self, request, spider):
+        user_agent = random.choice(settings.agents)
+        request.headers.setdefault(b'User-Agent', user_agent)
+
+
+class RandomProxy(object):
+    """
+    设置代理IP
+    """
+
+    def process_request(self, request, spider):
+        proxy = requests.get('http://10.7.152.151:5555/random').text
+        uri = 'https://{proxy}'.format(proxy=proxy)
+        request.meta['proxy'] = uri
+
+```
+
+ setting.py
+
+注释默认的中间件, 启用自己调用的中间件
+
+```python
+DOWNLOADER_MIDDLEWARES = {
+   'weibospider.middlewares.RandomUserAgent': 543,
+   'weibospider.middlewares.RandomProxy': 544,
+}
+```
+
