@@ -6,7 +6,7 @@
 from urllib import parse
 
 # 编码
-enstr = parse.urlencode({'kd': '千峰'})
+enstr = parse.urlencode({'kd': '哈哈'})
 # 打印的结果为 kd=%E5%8D%83%E5%B3%B0
 print(enstr)
 
