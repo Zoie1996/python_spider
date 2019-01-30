@@ -12,7 +12,7 @@ print(enstr)
 
 # 解码
 destr = parse.unquote(enstr)
-# 解码的结果为 kd=千峰
+# 解码的结果为 kd=哈哈
 print(destr)
 ```
 
